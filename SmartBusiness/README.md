@@ -1,2 +1,0 @@
-# PaiControl
-Dashboard de PAI
