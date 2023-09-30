@@ -1,0 +1,1 @@
+Search-ADAccount -LockedOut -UsersOnly | Select-Object Name, SamAccountName | Export-Csv -Path "C:\DATA\locked_users\locked_accounts.csv" -NoTypeInformation

@@ -1,0 +1,45 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+<div id="layoutSidenav_content">
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-area me-1"></i>
+                    Domain statics for: <strong>{{name_to_search}}</strong>
+                    <!-- contenido del cuadro -->
+                </div>
+                <div >
+                <!--Data From Api-->
+                <strong>WHO IS: </strong>
+                {{ whois }}
+                <hr>
+                <strong>DNS A: </strong>
+                {% for dns in a_records %}
+                <li>{{ dns }}</li><br>
+                {% endfor %}
+                <strong>DNS TXT: </strong>
+                {% for dns_txt in txt_records %}
+                <li>{{ dns_txt  }}</li><br>
+                {% endfor %}
+                <hr>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-area me-1"></i>
+                    Reputation for: <strong>{{name_to_search}}</strong>
+                </div>
+                <strong>Analisis</strong>
+                {% for key, value in data_analysis.items %}
+                <p><strong>{{ key }}:</strong> {{ value }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

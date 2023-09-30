@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+<div id="layoutSidenav_content">
+    <main>
+        <h2>File Report</h2>
+        {% for each in report_data.items %}
+        <hr>
+        <h4>{{each}}</h4>
+        <hr>
+        {% endfor %}
+</main>
+</div>
+{% endblock content %}
