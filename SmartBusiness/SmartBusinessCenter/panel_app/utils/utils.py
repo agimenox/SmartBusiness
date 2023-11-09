@@ -15,6 +15,7 @@ import subprocess
 import os
 import pandas as pd
 import socket
+import requests
 
 def send_email(title,message):
     try:
@@ -172,3 +173,9 @@ def scan_network(firts_oct, second_oct,third_oct):
 
                 file.write(f'{ip},{hostname}\n')
 
+def get_current_currency():
+    api_url = "https://openexchangerates.org/api/latest.json?app_id=b78993fc7cd347dd85db096cfceee0c3"
+    currency_data = requests.get(api_url)
+    data = currency_data.json()
+    return data["rates"]
+    

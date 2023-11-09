@@ -21,7 +21,8 @@ from panel_app.utils.utils import (
     time_to_response,
     initialize_open_cases_severity,
     scan_network,
-    read_data_from_scan
+    read_data_from_scan,
+    get_current_currency
                                    )
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -432,3 +433,7 @@ class AsynView(View):
     # Perform io-blocking view logic using await, sleep for example.
         await asyncio.sleep(1)
         return HttpResponse("Hello async world!")
+    
+def current_currency(request):
+    currency_list = get_current_currency()
+    return render(request, 'currency_states.html', {'currency_list': currency_list})

@@ -17,7 +17,8 @@ from panel_app.views import  (
     get_file_report,
     AboutView,
     CasesApiView,
-    AsynView    
+    AsynView,
+    current_currency    
                               )
 
 urlpatterns = [
@@ -39,7 +40,8 @@ urlpatterns = [
     path('file-report/<str:file_id>/', get_file_report, name='get_file_report'),
     path('about/',AboutView.as_view(), name='about'),
     path('case-api/',CasesApiView.as_view(), name='case_api'),
-    path('case-asyn/',AsynView.as_view,name='case_asyn')
+    path('case-asyn/',AsynView.as_view,name='case_asyn'),
+    path('currency/',current_currency,name='currency')
     
 
     
