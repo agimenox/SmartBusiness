@@ -68,6 +68,7 @@ def dashboard(request):
 
 @login_required
 def search_domain(request):
+    """This function recieves a domain name, and search it using VT Api to get results"""
     if request.method == "POST":
         data = request.POST
         searchs_result = domain_report(data['name_to_search'])
@@ -108,6 +109,7 @@ def search_domain(request):
     
 @login_required
 def search_ip(request):
+    """This function recieves a Ip Address, and search it using VT Api to get results"""
     if request.method == "POST":
         data = (request.POST)
         ip_address = data['ip_to_search']
@@ -120,8 +122,6 @@ def search_ip(request):
             snort_clasif = searchs_result['data']['attributes']['last_analysis_results']['Snort IP sample list']['result']
             fortinet_clasif = searchs_result['data']['attributes']['last_analysis_results']['Fortinet']['result']
             google_clasfic = searchs_result['data']['attributes']['last_analysis_results']['Google Safebrowsing']['result']
-    #        cert_https = searchs_result['data']['attributes']['last_https_certificate']['subject']
-    #        alter_names = searchs_result['data']['attributes']['last_https_certificate']['extensions']['subject_alternative_name']
             final_reputation = searchs_result['data']['attributes']['reputation']
         else:
             return render(
@@ -153,6 +153,7 @@ def search_ip(request):
     
 @login_required
 def home(request):
+    """Home Page"""
     return render(
         request=request,
         template_name='index.html',
@@ -160,6 +161,7 @@ def home(request):
 
 @login_required
 def export_to_csv(request):
+    """Download all the incidents from Database"""
     incidents = IncidentManagement.objects.all()
     response = HttpResponse(content_type='text/csv')
     response['Content-Dispostion'] = 'attachment; filename=incidents_export.csv'
@@ -207,6 +209,7 @@ def export_csv_condition(request,condition):
 
 
 class IncidentCreateView(LoginRequiredMixin,CreateView):
+    """Create new incident or case"""
     model = IncidentManagement
     form_class = IncidentMgmtForm
     success_url = reverse_lazy('show_incident')
@@ -223,7 +226,7 @@ class IncidentCreateView(LoginRequiredMixin,CreateView):
         
 
 class IncidentListView(LoginRequiredMixin,ListView):
-    
+    """List all Incidents created"""
     model = IncidentManagement
     template_name = 'list_incident.html'
 
@@ -256,6 +259,7 @@ class IncidentListView(LoginRequiredMixin,ListView):
     
 
 class IncidentDetailView(LoginRequiredMixin,DetailView):
+    """Get detail information associated with an incident or case"""
     login_url = '/login/'
     redirect_field_name = 'show_incident'
     model = IncidentManagement
@@ -290,6 +294,7 @@ class IncidentUpdateView(LoginRequiredMixin,UpdateView):
     success_url = reverse_lazy('show_incident')
     template_name = "edit_incident.html"
 
+
 class IncidentCommentView(LoginRequiredMixin,CreateView):
     model = CaseComment
     fields = ['body']
@@ -306,7 +311,7 @@ class IncidentCommentView(LoginRequiredMixin,CreateView):
     
 @login_required
 def case_chart(request):
-    '''Funtion to graph bars charts'''
+    '''Function to graph bars charts'''
     open_cases = IncidentManagement.objects.filter(incident_state='Open').count()
     progress_cases = IncidentManagement.objects.filter(incident_state='Progress').count()
 
@@ -328,6 +333,7 @@ def case_chart(request):
 
 @login_required
 def graph_charts_js(request):
+    """Draw a bar chart with the open and in progress cases"""
     open_cases = IncidentManagement.objects.filter(incident_state='Open').count()
     open_cases = int(open_cases)
     progress_cases = IncidentManagement.objects.filter(incident_state='Progress').count()
@@ -355,6 +361,7 @@ class IncidentOwnView(LoginRequiredMixin, ListView):
     
 @login_required    
 def ip_scanner_tool(request):
+    """Given a network, this scan to detect devices on it"""
     if request.method == "POST":
         form = NumberForm(request.POST)
         if form.is_valid():
@@ -370,6 +377,7 @@ def ip_scanner_tool(request):
 
 @login_required
 def file_to_examinate(request):
+    """Check with VT Api if a file have malicius SHA or HASH"""
     if request.method == 'POST':
         file = request.FILES.get('file')
         if file:
@@ -387,7 +395,7 @@ from django.shortcuts import render
 
 @login_required
 def get_file_report(request, file_id):
-
+    """Get the report from file to examine function using the id"""
     data = consult_file_report(file_id)
     if data:
         # Perform further operations with the file report data
@@ -435,5 +443,6 @@ class AsynView(View):
         return HttpResponse("Hello async world!")
     
 def current_currency(request):
+    """Connect to openexchangerates to get the values of current currency and show it."""
     currency_list = get_current_currency()
     return render(request, 'currency_states.html', {'currency_list': currency_list})
