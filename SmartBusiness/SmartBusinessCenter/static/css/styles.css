@@ -11705,3 +11705,9 @@ body {
   height: 20px;
   font-size: 12px;
 }
+
+/* In your CSS file or style block */
+.flag-icon {
+  width: 50px; /* Adjust the width as needed */
+  height: auto; /* Maintain the aspect ratio */
+}
